@@ -1,29 +1,29 @@
 {
-      "version": 2,
-      "builds": [
-        {
-          "src": "infinite/wsgi.py",
-          "use": "@vercel/python",
-          "config": {
-            "runtime": "python3.13"
-          }
-        },
-        {
-          "src": "build_files.sh",
-          "use": "@vercel/static-build",
-          "config": {
-            "distDir": "staticfiles"
-          }
-        }
-      ],
-      "routes": [
-        {
-          "src": "/static/(.*)",
-          "dest": "/static/$1"
-        },
-        {
-          "src": "/(.*)",
-          "dest": "infinite/wsgi.py"
-        }
-      ]
+  "version": 2,
+  "builds": [
+    {
+      "src": "wsgi.py",
+      "use": "@vercel/python",
+      "config": {
+        "runtime": "python3.13"
+      }
     }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/media/(.*)",
+      "dest": "/media/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "wsgi.py"
+    }
+  ],
+  "env": {
+    "DJANGO_SETTINGS_MODULE": "infinite.settings"
+  }
+}

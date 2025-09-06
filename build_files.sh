@@ -1,14 +1,17 @@
 
+#!/bin/bash
 set -e 
 
-echo "Building the project..."
-python3 -m pip install -r requirements.txt
+echo "Installing dependencies..."
+pip install -r requirements.txt
 
-echo "Make Migration..."
-python3 manage.py makemigrations
+echo "Making migrations..."
+python manage.py makemigrations
 
-echo "Apply Migration..."
-python3 manage.py migrate
+echo "Applying migrations..."
+python manage.py migrate
 
-echo "Collect Static..."
-python3 manage.py collectstatic --noinput
+echo "Collecting static files..."
+python manage.py collectstatic --noinput
+
+echo "Build completed successfully!"

@@ -10,9 +10,6 @@ from django.contrib.auth.models import User
 from rest_framework.permissions import IsAdminUser, AllowAny
 from io import BytesIO
 from django.http import HttpResponse
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all().order_by("-created_at")
@@ -142,25 +139,13 @@ class RegisterView(generics.CreateAPIView):
 @api_view(["GET"])
 @permission_classes([permissions.AllowAny])
 def company_analytics_chart(request):
-    # Dummy data for manufacturing and sales
-    months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
-    manufacturing = [120, 135, 150, 160, 170, 180, 175, 190, 200, 210, 205, 220]
-    sales = [100, 125, 140, 150, 165, 170, 168, 180, 190, 205, 198, 210]
-
-    fig, ax = plt.subplots(figsize=(8, 4))
-    ax.plot(months, manufacturing, label='Manufacturing (tons)', marker='o')
-    ax.plot(months, sales, label='Sales (tons)', marker='s')
-    ax.set_title('Company Manufacturing & Sales - Yearly')
-    ax.set_ylabel('Tons')
-    ax.grid(True, linestyle='--', alpha=0.3)
-    ax.legend()
-    fig.tight_layout()
-
-    buffer = BytesIO()
-    fig.savefig(buffer, format='png')
-    plt.close(fig)
-    buffer.seek(0)
-    return HttpResponse(buffer.getvalue(), content_type='image/png')
+    # Return JSON data instead of chart image for better performance
+    data = {
+        "months": ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+        "manufacturing": [120, 135, 150, 160, 170, 180, 175, 190, 200, 210, 205, 220],
+        "sales": [100, 125, 140, 150, 165, 170, 168, 180, 190, 205, 198, 210]
+    }
+    return Response(data)
 
 
 
