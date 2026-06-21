@@ -88,7 +88,10 @@ class CompanyInfoViewSet(viewsets.ModelViewSet):
 class InquiryViewSet(viewsets.ModelViewSet):
     queryset = Inquiry.objects.all().order_by("-created_at")
     serializer_class = InquirySerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save()
 
 class ReviewViewSet(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
